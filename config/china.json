@@ -1,0 +1,34 @@
+{
+  "name": "中国地图",
+  "id": "china",
+  "description": "",
+  "lands": [
+    {
+      "type": "start",
+      "name": "起点",
+      "pass_money": 2000
+    },
+    {
+      "type": "basic",
+      "name": "北京",
+      "purchase_prices": [1000, 500, 500, 500],
+      "tolls": [50, 100, 200, 400]
+    },
+    {
+      "type": "event",
+      "name": "命运"
+    },
+    {
+      "type": "chain",
+      "name": "连锁超市",
+      "sale_price": 2000,
+      "chain_tolls": [100, 300, 500, 1000]
+    },
+    {
+      "type": "basic",
+      "name": "上海",
+      "purchase_prices": [1200, 600, 600, 600],
+      "tolls": [60, 120, 240, 480]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "美国地图",
+  "id": "american",
+  "description": "",
+  "lands": [
+    {
+      "type": "start",
+      "name": "Go",
+      "pass_money": 2000
+    },
+    {
+      "type": "basic",
+      "name": "New York",
+      "purchase_prices": [1500, 750, 750, 750],
+      "tolls": [75, 150, 300, 600]
+    },
+    {
+      "type": "event",
+      "name": "Chance"
+    },
+    {
+      "type": "chain",
+      "name": "Railroad",
+      "sale_price": 2500,
+      "chain_tolls": [100, 400, 800, 1600]
+    },
+    {
+      "type": "basic",
+      "name": "California",
+      "purchase_prices": [1800, 900, 900, 900],
+      "tolls": [90, 180, 360, 720]
+    }
+  ]
+}

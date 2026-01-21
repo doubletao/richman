@@ -1,0 +1,8 @@
+{
+  "game": {
+    "default_map": "china",
+    "max_players": 4,
+    "min_players": 2,
+    "starting_money": 10000
+  }
+}
