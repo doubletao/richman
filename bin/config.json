@@ -4,5 +4,25 @@
     "max_players": 4,
     "min_players": 2,
     "starting_money": 10000
-  }
+  },
+  "event_cards": [
+    {
+      "description": "在路边捡到钱",
+      "money_delta_self": 500,
+      "money_delta_others": 0,
+      "freeze_delta_self": 0,
+      "freeze_delta_others": 0,
+      "position_delta_self": 0,
+      "position_delta_others": 0
+    },
+    {
+      "description": "住院2回合",
+      "money_delta_self": -800,
+      "money_delta_others": 0,
+      "freeze_delta_self": 2,
+      "freeze_delta_others": 0,
+      "position_delta_self": 0,
+      "position_delta_others": 0
+    }
+  ]
 }

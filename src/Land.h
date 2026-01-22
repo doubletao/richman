@@ -59,6 +59,18 @@ public:
     // --- 起点 (Start) 专用 ---
     int getPassMoney() const { return pass_money_; }
 
+    // ---------- 运行时状态 ----------
+    /// 拥有者索引（-1 表示无主）
+    int getOwnerIndex() const { return owner_index_; }
+    void setOwnerIndex(int idx) { owner_index_ = idx; }
+
+    /// 当前等级：基本地块 0=未购买/1~4=等级，连锁地块 0=未购买/1=已购买
+    int getLevel() const { return level_; }
+    void setLevel(int l) { level_ = l; }
+
+    /// 是否已购买
+    bool isOwned() const { return owner_index_ >= 0; }
+
 private:
     LandType type_;
     std::string name_;
@@ -73,6 +85,10 @@ private:
 
     // 起点：路过发放金额
     int pass_money_ = 0;
+
+    // 运行时状态
+    int owner_index_ = -1;  // -1=无主，>=0=拥有者玩家索引
+    int level_ = 0;          // 基本：0=未购买,1~4=等级；连锁：0=未购买,1=已购买
 };
 
 }  // namespace richman

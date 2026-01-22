@@ -12,7 +12,9 @@ target_include_directories(jsoncpp PUBLIC ${JSONCPP_DIR})
 # 核心库：Land、DataManager
 add_library(richman_core STATIC
   Land.cpp
+  Player.cpp
   DataManager.cpp
+  EventManager.cpp
 )
 target_include_directories(richman_core PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
