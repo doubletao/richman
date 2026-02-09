@@ -3,32 +3,41 @@
   "id": "england",
   "description": "",
   "lands": [
-    {
-      "type": "start",
-      "name": "Start",
-      "pass_money": 2000
-    },
-    {
-      "type": "basic",
-      "name": "London",
-      "purchase_prices": [2000, 1000, 1000, 1000],
-      "tolls": [100, 200, 400, 800]
-    },
-    {
-      "type": "event",
-      "name": "Community Chest"
-    },
-    {
-      "type": "chain",
-      "name": "Station",
-      "sale_price": 2000,
-      "chain_tolls": [100, 300, 500, 1000]
-    },
-    {
-      "type": "basic",
-      "name": "Manchester",
-      "purchase_prices": [1100, 550, 550, 550],
-      "tolls": [55, 110, 220, 440]
-    }
+    {"type": "start", "name": "起点", "pass_money": 2000},
+    {"type": "basic", "name": "伦敦", "purchase_prices": [2000, 1000, 1000, 1000], "tolls": [100, 200, 400, 800]},
+    {"type": "basic", "name": "曼彻斯特", "purchase_prices": [1500, 750, 750, 750], "tolls": [75, 150, 300, 600]},
+    {"type": "basic", "name": "伯明翰", "purchase_prices": [1200, 600, 600, 600], "tolls": [60, 120, 240, 480]},
+    {"type": "basic", "name": "利物浦", "purchase_prices": [1400, 700, 700, 700], "tolls": [70, 140, 280, 560]},
+    {"type": "basic", "name": "利兹", "purchase_prices": [1000, 500, 500, 500], "tolls": [50, 100, 200, 400]},
+    {"type": "chain", "name": "铁路", "sale_price": 2500, "chain_tolls": [100, 400, 800, 1600]},
+    {"type": "basic", "name": "格拉斯哥", "purchase_prices": [1100, 550, 550, 550], "tolls": [55, 110, 220, 440]},
+    {"type": "event", "name": "机会"},
+    {"type": "basic", "name": "谢菲尔德", "purchase_prices": [1300, 650, 650, 650], "tolls": [65, 130, 260, 520]},
+    {"type": "basic", "name": "布里斯托", "purchase_prices": [950, 475, 475, 475], "tolls": [48, 95, 190, 380]},
+    {"type": "basic", "name": "爱丁堡", "purchase_prices": [1800, 900, 900, 900], "tolls": [90, 180, 360, 720]},
+    {"type": "chain", "name": "公用事业", "sale_price": 2000, "chain_tolls": [80, 320, 640, 1280]},
+    {"type": "basic", "name": "纽卡斯尔", "purchase_prices": [1050, 525, 525, 525], "tolls": [52, 105, 210, 420]},
+    {"type": "basic", "name": "诺丁汉", "purchase_prices": [1600, 800, 800, 800], "tolls": [80, 160, 320, 640]},
+    {"type": "basic", "name": "南安普顿", "purchase_prices": [1150, 575, 575, 575], "tolls": [58, 115, 230, 460]},
+    {"type": "basic", "name": "贝尔法斯特", "purchase_prices": [1350, 675, 675, 675], "tolls": [68, 135, 270, 540]},
+    {"type": "event", "name": "命运"},
+    {"type": "basic", "name": "卡迪夫", "purchase_prices": [1250, 625, 625, 625], "tolls": [62, 125, 250, 500]},
+    {"type": "basic", "name": "剑桥", "purchase_prices": [1700, 850, 850, 850], "tolls": [85, 170, 340, 680]},
+    {"type": "basic", "name": "牛津", "purchase_prices": [1650, 825, 825, 825], "tolls": [82, 165, 330, 660]},
+    {"type": "basic", "name": "约克", "purchase_prices": [900, 450, 450, 450], "tolls": [45, 90, 180, 360]},
+    {"type": "chain", "name": "铁路", "sale_price": 2500, "chain_tolls": [100, 400, 800, 1600]},
+    {"type": "basic", "name": "布莱顿", "purchase_prices": [850, 425, 425, 425], "tolls": [42, 85, 170, 340]},
+    {"type": "basic", "name": "朴茨茅斯", "purchase_prices": [980, 490, 490, 490], "tolls": [49, 98, 196, 392]},
+    {"type": "basic", "name": "雷丁", "purchase_prices": [1450, 725, 725, 725], "tolls": [72, 145, 290, 580]},
+    {"type": "event", "name": "机会"},
+    {"type": "basic", "name": "莱斯特", "purchase_prices": [1080, 540, 540, 540], "tolls": [54, 108, 216, 432]},
+    {"type": "basic", "name": "考文垂", "purchase_prices": [1020, 510, 510, 510], "tolls": [51, 102, 204, 408]},
+    {"type": "chain", "name": "公用事业", "sale_price": 2000, "chain_tolls": [80, 320, 640, 1280]},
+    {"type": "basic", "name": "赫尔", "purchase_prices": [880, 440, 440, 440], "tolls": [44, 88, 176, 352]},
+    {"type": "basic", "name": "普利茅斯", "purchase_prices": [1280, 640, 640, 640], "tolls": [64, 128, 256, 512]},
+    {"type": "basic", "name": "斯旺西", "purchase_prices": [940, 470, 470, 470], "tolls": [47, 94, 188, 376]},
+    {"type": "basic", "name": "多佛", "purchase_prices": [1550, 775, 775, 775], "tolls": [78, 155, 310, 620]},
+    {"type": "basic", "name": "坎特伯雷", "purchase_prices": [1120, 560, 560, 560], "tolls": [56, 112, 224, 448]},
+    {"type": "event", "name": "命运"}
   ]
 }

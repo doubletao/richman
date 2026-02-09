@@ -3,32 +3,41 @@
   "id": "american",
   "description": "",
   "lands": [
-    {
-      "type": "start",
-      "name": "Go",
-      "pass_money": 2000
-    },
-    {
-      "type": "basic",
-      "name": "New York",
-      "purchase_prices": [1500, 750, 750, 750],
-      "tolls": [75, 150, 300, 600]
-    },
-    {
-      "type": "event",
-      "name": "Chance"
-    },
-    {
-      "type": "chain",
-      "name": "Railroad",
-      "sale_price": 2500,
-      "chain_tolls": [100, 400, 800, 1600]
-    },
-    {
-      "type": "basic",
-      "name": "California",
-      "purchase_prices": [1800, 900, 900, 900],
-      "tolls": [90, 180, 360, 720]
-    }
+    {"type": "start", "name": "起点", "pass_money": 2000},
+    {"type": "basic", "name": "纽约", "purchase_prices": [1500, 750, 750, 750], "tolls": [75, 150, 300, 600]},
+    {"type": "basic", "name": "加利福尼亚", "purchase_prices": [1800, 900, 900, 900], "tolls": [90, 180, 360, 720]},
+    {"type": "basic", "name": "得克萨斯", "purchase_prices": [1200, 600, 600, 600], "tolls": [60, 120, 240, 480]},
+    {"type": "basic", "name": "佛罗里达", "purchase_prices": [1400, 700, 700, 700], "tolls": [70, 140, 280, 560]},
+    {"type": "basic", "name": "伊利诺伊", "purchase_prices": [1000, 500, 500, 500], "tolls": [50, 100, 200, 400]},
+    {"type": "chain", "name": "铁路", "sale_price": 2500, "chain_tolls": [100, 400, 800, 1600]},
+    {"type": "basic", "name": "宾夕法尼亚", "purchase_prices": [1100, 550, 550, 550], "tolls": [55, 110, 220, 440]},
+    {"type": "event", "name": "机会"},
+    {"type": "basic", "name": "佐治亚", "purchase_prices": [1300, 650, 650, 650], "tolls": [65, 130, 260, 520]},
+    {"type": "basic", "name": "北卡罗来纳", "purchase_prices": [950, 475, 475, 475], "tolls": [48, 95, 190, 380]},
+    {"type": "basic", "name": "密歇根", "purchase_prices": [1050, 525, 525, 525], "tolls": [52, 105, 210, 420]},
+    {"type": "chain", "name": "公用事业", "sale_price": 2000, "chain_tolls": [80, 320, 640, 1280]},
+    {"type": "basic", "name": "新泽西", "purchase_prices": [1600, 800, 800, 800], "tolls": [80, 160, 320, 640]},
+    {"type": "basic", "name": "弗吉尼亚", "purchase_prices": [1150, 575, 575, 575], "tolls": [58, 115, 230, 460]},
+    {"type": "basic", "name": "华盛顿", "purchase_prices": [1350, 675, 675, 675], "tolls": [68, 135, 270, 540]},
+    {"type": "basic", "name": "马萨诸塞", "purchase_prices": [1700, 850, 850, 850], "tolls": [85, 170, 340, 680]},
+    {"type": "event", "name": "命运"},
+    {"type": "basic", "name": "亚利桑那", "purchase_prices": [1250, 625, 625, 625], "tolls": [62, 125, 250, 500]},
+    {"type": "basic", "name": "田纳西", "purchase_prices": [900, 450, 450, 450], "tolls": [45, 90, 180, 360]},
+    {"type": "basic", "name": "印第安纳", "purchase_prices": [850, 425, 425, 425], "tolls": [42, 85, 170, 340]},
+    {"type": "basic", "name": "密苏里", "purchase_prices": [980, 490, 490, 490], "tolls": [49, 98, 196, 392]},
+    {"type": "chain", "name": "铁路", "sale_price": 2500, "chain_tolls": [100, 400, 800, 1600]},
+    {"type": "basic", "name": "马里兰", "purchase_prices": [1450, 725, 725, 725], "tolls": [72, 145, 290, 580]},
+    {"type": "basic", "name": "科罗拉多", "purchase_prices": [1380, 690, 690, 690], "tolls": [69, 138, 276, 552]},
+    {"type": "basic", "name": "威斯康星", "purchase_prices": [920, 460, 460, 460], "tolls": [46, 92, 184, 368]},
+    {"type": "event", "name": "机会"},
+    {"type": "basic", "name": "明尼苏达", "purchase_prices": [1080, 540, 540, 540], "tolls": [54, 108, 216, 432]},
+    {"type": "basic", "name": "路易斯安那", "purchase_prices": [1020, 510, 510, 510], "tolls": [51, 102, 204, 408]},
+    {"type": "chain", "name": "公用事业", "sale_price": 2000, "chain_tolls": [80, 320, 640, 1280]},
+    {"type": "basic", "name": "亚拉巴马", "purchase_prices": [880, 440, 440, 440], "tolls": [44, 88, 176, 352]},
+    {"type": "basic", "name": "俄勒冈", "purchase_prices": [1280, 640, 640, 640], "tolls": [64, 128, 256, 512]},
+    {"type": "basic", "name": "肯塔基", "purchase_prices": [940, 470, 470, 470], "tolls": [47, 94, 188, 376]},
+    {"type": "basic", "name": "内华达", "purchase_prices": [1550, 775, 775, 775], "tolls": [78, 155, 310, 620]},
+    {"type": "basic", "name": "俄亥俄", "purchase_prices": [1120, 560, 560, 560], "tolls": [56, 112, 224, 448]},
+    {"type": "event", "name": "命运"}
   ]
 }
