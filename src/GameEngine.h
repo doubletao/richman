@@ -3,6 +3,7 @@
 #include "DataManager.h"
 #include "DisplayManager.h"
 
+#include <functional>
 #include <json/json.h>
 #include <random>
 #include <string>
@@ -31,6 +32,9 @@ public:
 
     /// 获取当前玩家索引
     int getCurrentPlayerIndex() const { return current_player_index_; }
+
+    /// 设置输入回调：当引擎等待玩家输入时调用，返回 JSON 格式 {"player": "名字", "action": "a"/"b"}
+    void setInputCallback(std::function<Json::Value()> cb) { input_callback_ = std::move(cb); }
 
 private:
     /// 输出文本（通过 IDisplay）
@@ -74,6 +78,7 @@ private:
     bool waiting_for_input_ = false;
     std::string pending_action_;  // 当前等待的操作类型（"roll", "buy", "upgrade"）
     int pending_land_index_ = -1;  // 当前等待操作的地块索引
+    std::function<Json::Value()> input_callback_;
     std::mt19937 rng_;
 };
 

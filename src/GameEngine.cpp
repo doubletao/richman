@@ -20,11 +20,12 @@ void GameEngine::start() {
     current_player_index_ = 0;
     game_over_ = false;
 
-    // 游戏主循环
+    // 游戏主循环：轮到当前玩家，若需输入则通过 input_callback_ 获取并处理，nextPlayer 由内部逻辑在回合结束时调用
     while (!game_over_) {
         processPlayerTurn();
-        if (!game_over_) {
-            nextPlayer();
+        while (waiting_for_input_ && !game_over_ && input_callback_) {
+            Json::Value input = input_callback_();
+            processInput(input);
         }
     }
 }
