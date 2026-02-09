@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DataManager.h"
-#include "IDisplay.h"
+#include "DisplayManager.h"
 
 #include <json/json.h>
 #include <random>
@@ -13,11 +13,11 @@ namespace richman {
 class GameEngine {
 public:
     /// @param data_manager 数据管理器引用
-    /// @param display 展示接口指针（可为 nullptr，但需要时必须有）
-    GameEngine(DataManager& data_manager, IDisplay* display = nullptr);
+    /// @param display_manager 展示管理器（可为 nullptr，但需要时必须有）
+    GameEngine(DataManager& data_manager, DisplayManager* display_manager = nullptr);
 
-    /// 设置展示接口
-    void setDisplay(IDisplay* display) { display_ = display; }
+    /// 设置展示管理器
+    void setDisplayManager(DisplayManager* display_manager) { display_manager_ = display_manager; }
 
     /// 开始游戏循环
     void start();
@@ -68,7 +68,7 @@ private:
     int getActivePlayerCount() const;
 
     DataManager& data_manager_;
-    IDisplay* display_;
+    DisplayManager* display_manager_;
     int current_player_index_ = 0;
     bool game_over_ = false;
     bool waiting_for_input_ = false;

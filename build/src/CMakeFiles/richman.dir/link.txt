@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/richman.dir/main.cpp.o -o richman  librichman_core.a libjsoncpp.a 

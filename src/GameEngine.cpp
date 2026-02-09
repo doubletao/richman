@@ -7,8 +7,8 @@
 
 namespace richman {
 
-GameEngine::GameEngine(DataManager& data_manager, IDisplay* display)
-    : data_manager_(data_manager), display_(display), rng_(std::random_device{}()) {}
+GameEngine::GameEngine(DataManager& data_manager, DisplayManager* display_manager)
+    : data_manager_(data_manager), display_manager_(display_manager), rng_(std::random_device{}()) {}
 
 void GameEngine::start() {
     if (data_manager_.getPlayers().empty()) {
@@ -460,11 +460,11 @@ void GameEngine::nextPlayer() {
 }
 
 void GameEngine::output(const std::string& text) {
-    if (display_) {
+    if (display_manager_) {
         Json::Value json;
         json["type"] = "text";
         json["content"] = text;
-        display_->show(json);
+        display_manager_->show(json);
     }
 }
 

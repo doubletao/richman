@@ -1,0 +1,7 @@
+/home/doubletao/code/richman/build/CMakeFiles/edit_cache.dir
+/home/doubletao/code/richman/build/CMakeFiles/rebuild_cache.dir
+/home/doubletao/code/richman/build/src/CMakeFiles/jsoncpp.dir
+/home/doubletao/code/richman/build/src/CMakeFiles/richman_core.dir
+/home/doubletao/code/richman/build/src/CMakeFiles/richman.dir
+/home/doubletao/code/richman/build/src/CMakeFiles/edit_cache.dir
+/home/doubletao/code/richman/build/src/CMakeFiles/rebuild_cache.dir

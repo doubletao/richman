@@ -15,6 +15,8 @@ add_library(richman_core STATIC
   Player.cpp
   DataManager.cpp
   EventManager.cpp
+  DisplayText.cpp
+  DisplayManager.cpp
   GameEngine.cpp
 )
 target_include_directories(richman_core PUBLIC
