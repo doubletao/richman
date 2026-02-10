@@ -229,14 +229,44 @@ void GameEngine::handleLandArrival(int player_index, int land_index) {
             oss << "玩家 " << player.getName() << " 触发事件：" << card.description;
             output(oss.str());
 
-            // 应用事件卡效果
-            player.addMoney(card.money_delta_self);
-            player.setFreezeRounds(std::max(0, player.getFreezeRounds() + card.freeze_delta_self));
-            int new_pos = (player.getPosition() + card.position_delta_self) % static_cast<int>(lands.size());
-            if (new_pos < 0) new_pos += lands.size();
-            player.setPosition(new_pos);
+            // 应用事件卡效果并输出详细结果
+            if (card.money_delta_self != 0) {
+                oss.str("");
+                oss.clear();
+                if (card.money_delta_self > 0)
+                    oss << "  → 玩家 " << player.getName() << " 金钱增加 " << card.money_delta_self << " 元";
+                else
+                    oss << "  → 玩家 " << player.getName() << " 金钱减少 " << (-card.money_delta_self) << " 元";
+                output(oss.str());
+            }
+            int new_freeze_self = std::max(0, player.getFreezeRounds() + card.freeze_delta_self);
+            if (card.freeze_delta_self != 0) {
+                oss.str("");
+                oss.clear();
+                oss << "  → 玩家 " << player.getName() << " 原地停留 " << new_freeze_self << " 回合";
+                output(oss.str());
+            }
+            int new_pos_self = (player.getPosition() + card.position_delta_self) % static_cast<int>(lands.size());
+            if (new_pos_self < 0) new_pos_self += static_cast<int>(lands.size());
+            if (card.position_delta_self != 0) {
+                oss.str("");
+                oss.clear();
+                if (card.position_delta_self > 0)
+                    oss << "  → 玩家 " << player.getName() << " 前进 " << card.position_delta_self << " 格";
+                else
+                    oss << "  → 玩家 " << player.getName() << " 后退 " << (-card.position_delta_self) << " 格";
+                output(oss.str());
+                oss.str("");
+                oss.clear();
+                oss << "    · 玩家 " << player.getName() << " 移动至 " << lands[new_pos_self].getName();
+                output(oss.str());
+            }
 
-            // 其他玩家
+            player.addMoney(card.money_delta_self);
+            player.setFreezeRounds(new_freeze_self);
+            player.setPosition(new_pos_self);
+
+            // 其他玩家：先应用再输出
             for (int i = 0; i < static_cast<int>(players.size()); ++i) {
                 if (i != player_index) {
                     players[i].addMoney(card.money_delta_others);
@@ -244,6 +274,52 @@ void GameEngine::handleLandArrival(int player_index, int land_index) {
                     int other_pos = (players[i].getPosition() + card.position_delta_others) % static_cast<int>(lands.size());
                     if (other_pos < 0) other_pos += lands.size();
                     players[i].setPosition(other_pos);
+                }
+            }
+            if (card.money_delta_others != 0) {
+                oss.str("");
+                oss.clear();
+                if (card.money_delta_others > 0)
+                    oss << "  → 其他玩家各获得 " << card.money_delta_others << " 元";
+                else
+                    oss << "  → 其他玩家各减少 " << (-card.money_delta_others) << " 元";
+                output(oss.str());
+                for (int i = 0; i < static_cast<int>(players.size()); ++i) {
+                    if (i != player_index) {
+                        oss.str("");
+                        oss.clear();
+                        oss << "    · 玩家 " << players[i].getName() << " 金钱"
+                            << (card.money_delta_others >= 0 ? "增加 " : "减少 ")
+                            << (card.money_delta_others >= 0 ? card.money_delta_others : -card.money_delta_others) << " 元";
+                        output(oss.str());
+                    }
+                }
+            }
+            if (card.freeze_delta_others != 0) {
+                for (int i = 0; i < static_cast<int>(players.size()); ++i) {
+                    if (i != player_index) {
+                        oss.str("");
+                        oss.clear();
+                        oss << "  → 玩家 " << players[i].getName() << " 原地停留 " << players[i].getFreezeRounds() << " 回合";
+                        output(oss.str());
+                    }
+                }
+            }
+            if (card.position_delta_others != 0) {
+                oss.str("");
+                oss.clear();
+                if (card.position_delta_others > 0)
+                    oss << "  → 其他玩家各前进 " << card.position_delta_others << " 格";
+                else
+                    oss << "  → 其他玩家各后退 " << (-card.position_delta_others) << " 格";
+                output(oss.str());
+                for (int i = 0; i < static_cast<int>(players.size()); ++i) {
+                    if (i != player_index) {
+                        oss.str("");
+                        oss.clear();
+                        oss << "    · 玩家 " << players[i].getName() << " 移动至 " << lands[players[i].getPosition()].getName();
+                        output(oss.str());
+                    }
                 }
             }
 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc librichman_core.a CMakeFiles/richman_core.dir/Land.cpp.o CMakeFiles/richman_core.dir/Player.cpp.o CMakeFiles/richman_core.dir/DataManager.cpp.o CMakeFiles/richman_core.dir/EventManager.cpp.o CMakeFiles/richman_core.dir/DisplayText.cpp.o CMakeFiles/richman_core.dir/DisplayManager.cpp.o CMakeFiles/richman_core.dir/GameEngine.cpp.o
-/usr/bin/ranlib librichman_core.a

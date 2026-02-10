@@ -32,3 +32,9 @@
 *.out
 *.app
 
+# CMake build directory
+build/
+
+# bin 下由构建拷贝的产物（可执行文件与 config 目录）
+bin/richman
+bin/config/
