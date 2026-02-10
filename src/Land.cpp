@@ -42,4 +42,10 @@ int Land::getChainToll(int chain_count) const {
     return chain_tolls_[idx];
 }
 
+std::string Land::getDisplayName() const {
+    if (type_ == LandType::Chain)
+        return "[连锁]" + name_;
+    return name_;
+}
+
 }  // namespace richman

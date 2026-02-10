@@ -46,6 +46,8 @@ public:
 
     LandType getType() const { return type_; }
     const std::string& getName() const { return name_; }
+    /// 用于展示的名称，连锁地块带 [连锁] 前缀
+    std::string getDisplayName() const;
 
     // --- 基本 (Basic) 专用，level 为 1~4 ---
     int getPurchasePrice(int level) const;

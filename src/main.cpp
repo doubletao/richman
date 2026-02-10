@@ -4,6 +4,7 @@
 #include "GameEngine.h"
 
 #include <json/json.h>
+#include <cctype>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -102,9 +103,10 @@ int main() {
             input["player"] = "";
         std::string action;
         if (std::getline(std::cin, action)) {
-            if (!action.empty())
-                input["action"] = action.substr(0, 1);
-            else
+            if (!action.empty()) {
+                char c = static_cast<char>(std::tolower(static_cast<unsigned char>(action[0])));
+                input["action"] = std::string(1, c);
+            } else
                 input["action"] = "";
         } else
             input["action"] = "";

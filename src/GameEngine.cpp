@@ -55,7 +55,7 @@ void GameEngine::processPlayerTurn() {
 
     // 回合开始提示
     std::ostringstream oss;
-    oss << "玩家 " << current_player.getName() << " 回合开始，输入a摇骰子";
+    oss << "玩家 " << current_player.getName() << " 回合开始，输入 s 摇骰子";
     output(oss.str());
 
     // 等待输入
@@ -91,7 +91,7 @@ bool GameEngine::processInput(const Json::Value& input) {
     }
 
     if (pending_action_ == "roll") {
-        if (action == "a") {
+        if (action == "s") {
             waiting_for_input_ = false;
             int dice = rollDice();
             std::ostringstream oss;
@@ -101,22 +101,21 @@ bool GameEngine::processInput(const Json::Value& input) {
             return true;
         }
         std::ostringstream oss;
-        oss << "错误：摇骰子必须输入 'a'，请重试";
+        oss << "错误：摇骰子请输入 s，请重试";
         output(oss.str());
         return false;
     } 
     else if (pending_action_ == "buy") {
         waiting_for_input_ = false;
-        if (action == "a" && pending_land_index_ >= 0) {
+        if (action == "y" && pending_land_index_ >= 0) {
             handleBuyLand(current_player_index_, pending_land_index_);
         } 
-        else if (action == "b" && pending_land_index_ >= 0) {
-            // 忽略购买
-            output("玩家 " + player_name + " 选择忽略购买");
+        else if (action == "n" && pending_land_index_ >= 0) {
+            output("玩家 " + player_name + " 选择不购买");
             nextPlayer();
         }
         else {
-            output("错误：购买操作输入格式不正确，请输入 'a' 购买或 'b' 忽略，请重试");
+            output("错误：请输入 y 购买或 n 不购买，请重试");
             waiting_for_input_ = true;  // 重新等待输入
             return false;
         }
@@ -126,18 +125,17 @@ bool GameEngine::processInput(const Json::Value& input) {
     else if (pending_action_ == "upgrade") 
     {
         waiting_for_input_ = false;
-        if (action == "a" && pending_land_index_ >= 0) 
+        if (action == "y" && pending_land_index_ >= 0) 
         {
             handleUpgradeLand(current_player_index_, pending_land_index_);
         } 
-        else if (action == "b" && pending_land_index_ >= 0)
+        else if (action == "n" && pending_land_index_ >= 0)
         {
-            // 忽略升级
-            output("玩家 " + player_name + " 选择忽略升级");
+            output("玩家 " + player_name + " 选择不升级");
             nextPlayer();
         }
         else {
-            output("错误：升级操作输入格式不正确，请输入 'a' 升级或 'b' 忽略，请重试");
+            output("错误：请输入 y 升级或 n 不升级，请重试");
             waiting_for_input_ = true;  // 重新等待输入
             return false;
         }
@@ -184,12 +182,12 @@ void GameEngine::movePlayer(int player_index, int steps) {
         else if (i == steps) 
         {
             // 到达目标地块
-            oss << "玩家 " << player.getName() << " 到达 " << land.getName();
+            oss << "玩家 " << player.getName() << " 到达 " << land.getDisplayName();
         } 
         else 
         {
             // 路过其他地块
-            oss << "玩家 " << player.getName() << " 路过 " << land.getName();
+            oss << "玩家 " << player.getName() << " 路过 " << land.getDisplayName();
         }
         output(oss.str());
     }
@@ -258,7 +256,7 @@ void GameEngine::handleLandArrival(int player_index, int land_index) {
                 output(oss.str());
                 oss.str("");
                 oss.clear();
-                oss << "    · 玩家 " << player.getName() << " 移动至 " << lands[new_pos_self].getName();
+                oss << "    · 玩家 " << player.getName() << " 移动至 " << lands[new_pos_self].getDisplayName();
                 output(oss.str());
             }
 
@@ -317,7 +315,7 @@ void GameEngine::handleLandArrival(int player_index, int land_index) {
                     if (i != player_index) {
                         oss.str("");
                         oss.clear();
-                        oss << "    · 玩家 " << players[i].getName() << " 移动至 " << lands[players[i].getPosition()].getName();
+                        oss << "    · 玩家 " << players[i].getName() << " 移动至 " << lands[players[i].getPosition()].getDisplayName();
                         output(oss.str());
                     }
                 }
@@ -332,8 +330,8 @@ void GameEngine::handleLandArrival(int player_index, int land_index) {
                 // 无主：可以购买
                 int price = land.getPurchasePrice(1);
                 std::ostringstream oss;
-                oss << "玩家 " << player.getName() << " 可以购买 " << land.getName()
-                    << "，价格 " << price << " 元，输入a购买，输入其他忽略";
+                oss << "玩家 " << player.getName() << " 到达 " << land.getDisplayName()
+                    << "，价格 " << price << " 元。当前金钱 " << player.getMoney() << " 元。是否购买？输入 y 购买，输入 n 不购买";
                 output(oss.str());
                 waiting_for_input_ = true;
                 pending_action_ = "buy";
@@ -344,11 +342,12 @@ void GameEngine::handleLandArrival(int player_index, int land_index) {
             {
                 // 自己的地：可以升级
                 if (land.getLevel() < 4) {
-                    int upgrade_price = land.getPurchasePrice(land.getLevel() + 1) - land.getPurchasePrice(land.getLevel());
+                    // purchase_prices_[level-1] 表示该级单价：0=购地到1级，1=1→2级，2=2→3级，3=3→4级
+                    int upgrade_price = land.getPurchasePrice(land.getLevel() + 1);
                     std::ostringstream oss;
-                    oss << "玩家 " << player.getName() << " 可以升级 " << land.getName()
+                    oss << "玩家 " << player.getName() << " 可升级 " << land.getDisplayName()
                         << " 到 " << (land.getLevel() + 1) << " 级，价格 " << upgrade_price
-                        << " 元，输入a升级，输入其他忽略";
+                        << " 元。当前金钱 " << player.getMoney() << " 元。是否升级？输入 y 升级，输入 n 不升级";
                     output(oss.str());
                     waiting_for_input_ = true;
                     pending_action_ = "upgrade";
@@ -381,8 +380,8 @@ void GameEngine::handleLandArrival(int player_index, int land_index) {
                 // 无主：可以购买
                 int price = land.getSalePrice();
                 std::ostringstream oss;
-                oss << "玩家 " << player.getName() << " 可以购买 " << land.getName()
-                    << "，价格 " << price << " 元，输入a购买，输入其他忽略";
+                oss << "玩家 " << player.getName() << " 到达 " << land.getDisplayName()
+                    << "，价格 " << price << " 元。当前金钱 " << player.getMoney() << " 元。是否购买？输入 y 购买，输入 n 不购买";
                 output(oss.str());
                 waiting_for_input_ = true;
                 pending_action_ = "buy";
@@ -454,7 +453,7 @@ void GameEngine::handleBuyLand(int player_index, int land_index) {
     land.setOwnerIndex(player_index);
     land.setLevel(1);
     std::ostringstream oss;
-    oss << "玩家 " << player.getName() << " 购买了 " << land.getName();
+    oss << "玩家 " << player.getName() << " 购买了 " << land.getDisplayName();
     output(oss.str());
     nextPlayer();
 }
@@ -475,7 +474,7 @@ void GameEngine::handleUpgradeLand(int player_index, int land_index) {
     }
 
     int current_level = land.getLevel();
-    int upgrade_price = land.getPurchasePrice(current_level + 1) - land.getPurchasePrice(current_level);
+    int upgrade_price = land.getPurchasePrice(current_level + 1);  // 该级单价，非差额
 
     if (player.getMoney() < upgrade_price) {
         std::ostringstream oss;
@@ -488,7 +487,7 @@ void GameEngine::handleUpgradeLand(int player_index, int land_index) {
     player.addMoney(-upgrade_price);
     land.setLevel(current_level + 1);
     std::ostringstream oss;
-    oss << "玩家 " << player.getName() << " 将 " << land.getName() << " 升级到 " << land.getLevel() << " 级";
+    oss << "玩家 " << player.getName() << " 将 " << land.getDisplayName() << " 升级到 " << land.getLevel() << " 级";
     output(oss.str());
     nextPlayer();
 }

@@ -23,7 +23,7 @@ public:
     /// 开始游戏循环
     void start();
 
-    /// 处理输入（JSON 格式：{"player": "player_1", "action": "a"}）
+    /// 处理输入（JSON 格式：{"player": "player_1", "action": "s"/"y"/"n"}，s=摇骰子 y=是 n=否）
     /// @return 是否处理成功
     bool processInput(const Json::Value& input);
 
@@ -33,7 +33,7 @@ public:
     /// 获取当前玩家索引
     int getCurrentPlayerIndex() const { return current_player_index_; }
 
-    /// 设置输入回调：当引擎等待玩家输入时调用，返回 JSON 格式 {"player": "名字", "action": "a"/"b"}
+    /// 设置输入回调：当引擎等待玩家输入时调用，返回 JSON 格式 {"player": "名字", "action": "s"/"y"/"n"}
     void setInputCallback(std::function<Json::Value()> cb) { input_callback_ = std::move(cb); }
 
 private:
