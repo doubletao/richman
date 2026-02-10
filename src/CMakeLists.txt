@@ -25,6 +25,14 @@ target_include_directories(richman_core PUBLIC
 )
 target_link_libraries(richman_core PUBLIC jsoncpp)
 
-# 可执行程序
+# 可执行程序（输出到 build 根目录，便于直接运行）
 add_executable(richman main.cpp)
+set_target_properties(richman PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 target_link_libraries(richman PRIVATE richman_core)
+
+# build 结束后将 richman 与 config 拷贝到项目 bin 目录
+add_custom_command(TARGET richman POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:richman> ${CMAKE_SOURCE_DIR}/bin/richman
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/config ${CMAKE_SOURCE_DIR}/bin/config
+  COMMENT "Copy richman and config to bin/"
+)

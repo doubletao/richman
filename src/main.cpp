@@ -8,8 +8,30 @@
 #include <memory>
 #include <string>
 
+#ifdef __linux__
+#include <unistd.h>
+#include <limits.h>
+#endif
+
+/// 获取可执行文件所在目录（末尾带 /），便于解析 config 等相对路径
+static std::string getExeDir() {
+#ifdef __linux__
+    char buf[PATH_MAX];
+    ssize_t n = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+    if (n <= 0) return "";
+    buf[n] = '\0';
+    std::string path(buf);
+    std::string::size_type pos = path.find_last_of('/');
+    if (pos == std::string::npos) return "";
+    return path.substr(0, pos + 1);
+#else
+    return "";
+#endif
+}
+
 int main() {
     richman::DataManager dm;
+    std::string binDir = getExeDir();  // 运行目录为 bin/ 时，配置文件相对 bin/
 
     // 1. 选择地图
     std::cout << "请选择地图：1=中国 2=美国 3=英国 [1-3]: ";
@@ -29,7 +51,9 @@ int main() {
     else if (mapChoice == 2) mapPath = "config/american.json";
     else mapPath = "config/england.json";
 
-    if (!dm.loadAll("bin/config.json", mapPath)) {
+    std::string configPath = binDir + "config.json";
+    std::string mapFullPath = binDir + mapPath;
+    if (!dm.loadAll(configPath, mapFullPath)) {
         std::cout << "加载配置或地图失败" << std::endl;
         return 1;
     }
