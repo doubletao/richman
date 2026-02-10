@@ -103,9 +103,22 @@ int main() {
             input["player"] = "";
         std::string action;
         if (std::getline(std::cin, action)) {
+            // 去除首尾空格，支持 show 等完整命令
+            auto trim = [](std::string& s) {
+                auto start = s.find_first_not_of(" \t\r\n");
+                if (start == std::string::npos) { s.clear(); return; }
+                auto end = s.find_last_not_of(" \t\r\n");
+                s = s.substr(start, end == std::string::npos ? std::string::npos : end - start + 1);
+            };
+            trim(action);
             if (!action.empty()) {
-                char c = static_cast<char>(std::tolower(static_cast<unsigned char>(action[0])));
-                input["action"] = std::string(1, c);
+                if (action.size() == 4 && std::tolower(static_cast<unsigned char>(action[0])) == 's'
+                    && std::tolower(static_cast<unsigned char>(action[1])) == 'h'
+                    && std::tolower(static_cast<unsigned char>(action[2])) == 'o'
+                    && std::tolower(static_cast<unsigned char>(action[3])) == 'w')
+                    input["action"] = "show";
+                else
+                    input["action"] = action;  // 整行传入，支持聊天完整内容及 s/y/n 单键
             } else
                 input["action"] = "";
         } else

@@ -23,7 +23,7 @@ public:
     /// 开始游戏循环
     void start();
 
-    /// 处理输入（JSON 格式：{"player": "player_1", "action": "s"/"y"/"n"}，s=摇骰子 y=是 n=否）
+    /// 处理输入（JSON 格式：{"player": "player_1", "action": "s"/"y"/"n"/"show"}，s=摇骰子 y=是 n=否 show=查看状态）
     /// @return 是否处理成功
     bool processInput(const Json::Value& input);
 
@@ -70,6 +70,9 @@ private:
 
     /// 获取活跃玩家数量
     int getActivePlayerCount() const;
+
+    /// 输出 show 命令内容：所有玩家状态 + 无主地块
+    void outputShowState();
 
     DataManager& data_manager_;
     DisplayManager* display_manager_;

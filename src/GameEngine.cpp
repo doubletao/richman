@@ -76,6 +76,12 @@ bool GameEngine::processInput(const Json::Value& input) {
     std::string player_name = input["player"].asString();
     std::string action = input["action"].asString();
 
+    // show 命令：任意时刻可输入，打印全局状态后继续等待当前操作
+    if (action == "show") {
+        outputShowState();
+        return false;
+    }
+
     auto& players = data_manager_.getPlayers();
     if (current_player_index_ >= static_cast<int>(players.size())) {
         output("错误：当前玩家索引超出范围，无法处理输入");
@@ -91,7 +97,7 @@ bool GameEngine::processInput(const Json::Value& input) {
     }
 
     if (pending_action_ == "roll") {
-        if (action == "s") {
+        if (action.size() == 1 && (action[0] == 's' || action[0] == 'S')) {
             waiting_for_input_ = false;
             int dice = rollDice();
             std::ostringstream oss;
@@ -100,23 +106,21 @@ bool GameEngine::processInput(const Json::Value& input) {
             movePlayer(current_player_index_, dice);
             return true;
         }
-        std::ostringstream oss;
-        oss << "错误：摇骰子请输入 s，请重试";
-        output(oss.str());
+        output("玩家 " + player_name + " : " + action);
         return false;
     } 
     else if (pending_action_ == "buy") {
         waiting_for_input_ = false;
-        if (action == "y" && pending_land_index_ >= 0) {
+        if (action.size() == 1 && (action[0] == 'y' || action[0] == 'Y') && pending_land_index_ >= 0) {
             handleBuyLand(current_player_index_, pending_land_index_);
         } 
-        else if (action == "n" && pending_land_index_ >= 0) {
+        else if (action.size() == 1 && (action[0] == 'n' || action[0] == 'N') && pending_land_index_ >= 0) {
             output("玩家 " + player_name + " 选择不购买");
             nextPlayer();
         }
         else {
-            output("错误：请输入 y 购买或 n 不购买，请重试");
-            waiting_for_input_ = true;  // 重新等待输入
+            output("玩家 " + player_name + " : " + action);
+            waiting_for_input_ = true;  // 视为聊天，继续等待操作
             return false;
         }
         pending_land_index_ = -1;
@@ -125,24 +129,26 @@ bool GameEngine::processInput(const Json::Value& input) {
     else if (pending_action_ == "upgrade") 
     {
         waiting_for_input_ = false;
-        if (action == "y" && pending_land_index_ >= 0) 
+        if (action.size() == 1 && (action[0] == 'y' || action[0] == 'Y') && pending_land_index_ >= 0) 
         {
             handleUpgradeLand(current_player_index_, pending_land_index_);
         } 
-        else if (action == "n" && pending_land_index_ >= 0)
+        else if (action.size() == 1 && (action[0] == 'n' || action[0] == 'N') && pending_land_index_ >= 0)
         {
             output("玩家 " + player_name + " 选择不升级");
             nextPlayer();
         }
         else {
-            output("错误：请输入 y 升级或 n 不升级，请重试");
-            waiting_for_input_ = true;  // 重新等待输入
+            output("玩家 " + player_name + " : " + action);
+            waiting_for_input_ = true;  // 视为聊天，继续等待操作
             return false;
         }
         pending_land_index_ = -1;
         return true;
     }
 
+    // 未知 pending 时也视为聊天
+    output("玩家 " + player_name + " : " + action);
     return false;
 }
 
@@ -525,6 +531,49 @@ int GameEngine::getActivePlayerCount() const {
         }
     }
     return count;
+}
+
+void GameEngine::outputShowState() {
+    const auto& players = data_manager_.getPlayers();
+    const auto& lands = data_manager_.getLands();
+    const int map_size = static_cast<int>(lands.size());
+    std::ostringstream oss;
+
+    output("---------- 当前状态 ----------");
+    for (int i = 0; i < static_cast<int>(players.size()); ++i) {
+        const auto& p = players[i];
+        int pos = p.getPosition();
+        if (pos < 0 || pos >= map_size) continue;
+        oss.str("");
+        oss.clear();
+        oss << "玩家 " << p.getName()
+            << "：位置 第 " << (pos + 1) << " 格（" << lands[pos].getDisplayName() << "）"
+            << "，金钱 " << p.getMoney() << " 元";
+        if (p.getMoney() < 0)
+            oss << " [已破产]";
+        output(oss.str());
+
+        std::string owned_list;
+        for (int k = 0; k < map_size; ++k) {
+            if (lands[k].getOwnerIndex() == i)
+                owned_list += (owned_list.empty() ? "" : "、") + lands[k].getDisplayName();
+        }
+        oss.str("");
+        oss.clear();
+        oss << "  拥有地块：" << (owned_list.empty() ? "无" : owned_list);
+        output(oss.str());
+    }
+
+    std::string unowned_list;
+    for (int k = 0; k < map_size; ++k) {
+        if (!lands[k].isOwned())
+            unowned_list += (unowned_list.empty() ? "" : "、") + lands[k].getDisplayName();
+    }
+    oss.str("");
+    oss.clear();
+    oss << "无主地块：" << (unowned_list.empty() ? "无" : unowned_list);
+    output(oss.str());
+    output("------------------------------");
 }
 
 void GameEngine::nextPlayer() {
